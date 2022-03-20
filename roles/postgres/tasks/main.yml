@@ -1,0 +1,40 @@
+---
+- name: Instala postgresql
+  apt:
+    name: "{{ packages }}"
+    state: present
+  become: true
+  vars:
+    packages:    
+      - postgresql
+      - postgresql-contrib
+      - libpq-dev
+      - python3-psycopg2
+
+- name: Inicia o serviço do postgresql
+  service:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Define método de autenticação para usuário postgres
+  template:
+    src: pg_hba_trust.conf.j2
+    dest: /etc/postgresql/12/main/pg_hba.conf
+
+- name: reinicia o postgres
+  service: name=postgresql state=restarted
+    
+- name: Define senha para postgres
+  command: psql -U postgres -c "ALTER USER postgres WITH PASSWORD '{{ postgres.password }}';"
+
+- name: reinicia postgres
+  service: name=postgresql state=restarted
+
+- name: Define método de autenticação para Usuário postgres
+  template:
+    src: pg_hba_md5.conf.j2
+    dest: /etc/postgresql/12/main/pg_hba.conf
+
+- name: reinicia postgres
+  service: name=postgresql state=restarted

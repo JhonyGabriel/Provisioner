@@ -1,0 +1,14 @@
+---
+postgres:
+  #User postgres 
+  password: 
+
+mysql:
+  #User root
+  password: 
+
+swap:
+  swap_file_path: /swapfile
+  swap_file_size: 2048 #MB
+  swappiness: 1
+

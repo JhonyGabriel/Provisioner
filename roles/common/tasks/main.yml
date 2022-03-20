@@ -1,0 +1,24 @@
+---
+- name: Seta fuso horário para America/Fortaleza
+  timezone:
+    name: America/Fortaleza
+
+- name: Atualiza os pacotes 
+  apt:
+    upgrade: safe
+    update_cache: yes
+
+- name: Instalação dos pacotes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  become: true
+  vars:
+    packages:
+      - nmap
+      - htop
+      - nodejs 
+      - libcurl4-openssl-dev
+      - freetds-dev
+      - imagemagick 
+      - redis-server

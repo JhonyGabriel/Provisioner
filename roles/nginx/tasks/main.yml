@@ -1,0 +1,32 @@
+---
+- name: Instala o Nginx
+  apt:
+    name: nginx
+    state: latest
+
+- name: Cria diretórios das aplicações I
+  file:
+    path: /etc/nginx/sites-available
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+
+- name: Cria diretórios das aplicações II
+  file:
+    path: /etc/nginx/sites-enabled
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+
+- name: Inclue o diretório de aplicações na configuração do Nginx
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+
+- name: Inicia o serviço do Nginx
+  service:
+    name: nginx
+    state: started
+    enabled: yes
