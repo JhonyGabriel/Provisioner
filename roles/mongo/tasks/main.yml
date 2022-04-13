@@ -1,0 +1,22 @@
+---
+- name: Instala key repositório Mongo
+  ansible.builtin.apt_key:
+    url: https://www.mongodb.org/static/pgp/server-4.4.asc
+    state: present
+
+- name: Instala repositório Mongo
+  template:
+    src: mongo.repo.j2
+    dest: /etc/apt/sources.list.d/mongodb-org-4.4.list
+
+- name: Instala o MongoDB
+  apt:
+    name: mongodb
+    state: present
+    update_cache: yes
+
+- name: Inicia o mongo
+  systemd:
+    name: mongodb
+    enabled: yes
+    state: started

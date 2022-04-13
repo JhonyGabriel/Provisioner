@@ -1,4 +1,5 @@
 group_vars/all.yml
+hosts
 site.retry
 Vagrantfile
 .vagrant
